@@ -1,39 +1,99 @@
 import io
 import tkinter as tk
-from tkinter import menssagebox
+from tkinter import messagebox
 import requests
 from PIL import Image, ImageTk
 
-COLOR_VERM_ESC  = "#5d0202"
-COLOR_CINZA     = "#4B4B4B"
-COLOR_BRANCO    = "#fffafa"
-COLOR_VERM_MED  = "#ff0000"
-COLOR_VERM_CLA  = "#E86666"
-COLOR_CINZA_ESC = "#1e1e1e"
-COLOR_CINZA_MED = "#1e1e1e"
-
+COLOR_AZUL_ESC = "#6e0000"  
+COLOR_AZUL_MED = "#ab0033"  
+COLOR_AZUL_CLA = "#e68f67"  
+COLOR_VERDE    = "#c8c644"  
+COLOR_ROSA     = "#b83764"  
+COLOR_AMARELO  = "#ed7301"  
+COLOR_ACO      = "#4a3336"  
 
 def mostrar_fato(detalhe):
-    menssagebox.showinfo("Curiosidade Eufrasia", detalhe)
+    messagebox.showinfo("Curiosidade Eufrasia", detalhe)
+
 
 janela = tk.Tk()
 janela.title("História Financeira: Eufrásia Teixeira Leite")
-janela.geometry("500x580")
-janela.configure(bg=COLOR_CINZA_ESC)
+janela.geometry("500x580")  
+janela.configure(bg=COLOR_AZUL_MED)
 
 lbl_titulo = tk.Label(
     janela,
     text="Eufrásia Teixeira Leite",
-    font=('Helvetica', 12, "bold"),
-    bg=COLOR_CINZA_ESC,
-    fg=COLOR_BRANCO",
+    font=("Times New Roman", 26, "bold"),
+    bg=COLOR_AZUL_MED,
+    fg='#f4f4f9',
 )
 lbl_titulo.pack(pady=7)
+
 lbl_subtitulo = tk.Label(
     janela,
-    text="A primeira mulher investidora global do Brasil"
-    font=('Helvetica', -14, 'bold italic'),
-    bg=COLOR_CINZA_MED,
-    fg=COLOR_BRANCO
+    text="A primeira investidora global do Brasil",
+    font=("Arial", 10, "italic"),
+    bg=COLOR_AZUL_MED,
 )
 lbl_subtitulo.pack(pady=2)
+
+url_imagem = "https://upload.wikimedia.org/wikipedia/commons/4/40/Eufr%C3%A1sia_Teixeira_Leite_aos_30_anos_%282%29.jpg"
+
+foto_eufrasia = None
+
+try:
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+    }
+
+    resposta = requests.get(url_imagem, headers=headers, timeout=5)
+    resposta.raise_for_status()  
+
+    dados_imagem = resposta.content
+
+    imagem_pil = Image.open(io.BytesIO(dados_imagem))
+    imagem_pil = imagem_pil.resize(
+        (130, 160), Image.Resampling.LANCZOS
+    )  
+    foto_eufrasia = ImageTk.PhotoImage(imagem_pil)
+
+    
+    lbl_imagem = tk.Label(janela, image=foto_eufrasia, bg="#f4f4f9")
+    lbl_imagem.image = foto_eufrasia  
+    lbl_imagem.pack(pady=10)
+
+except Exception as erro:
+    
+    print(f"Erro ao carregar imagem: {erro}")
+    lbl_erro = tk.Label(
+        janela,
+        text="[Foto de Eufrásia Teixeira Leite - Indisponível sem internet]",
+        font=("Arial", 9, "italic"),
+        fg="gray",
+        bg="#f4f4f9",
+    )
+    lbl_erro.pack(pady=10)
+
+
+eventos = {
+    "1850 - Nascimento": "Nasceu em Vassouras (RJ), no auge do ciclo do café.",
+    "1872 - Herança & Europa": "Após perder os pais, mudou-se para Paris e assumiu a gestão da fortuna da família.",
+    "1873-1930 - Carteira Global": "Investiu em títulos, ações e ferrovias em 13 países e 7 moedas diferentes.",
+    "1930 - Legado": "Faleceu deixando sua fortuna para causas sociais e educacionais no Brasil.",
+}
+
+
+for data, detalhe in eventos.items():
+    btn = tk.Button(
+        janela,
+        text=data,
+        font=("Arial", 11),
+        bg="#5d1b1b",
+        fg="white",
+        relief="flat",
+        command=lambda d=detalhe: mostrar_fato(d),
+    )
+    btn.pack(fill="x", padx=40, pady=6)
+
+janela.mainloop()
