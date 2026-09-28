@@ -311,7 +311,7 @@ def finalizar_pedido_json():
     nome_arquivo = f"pedido_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
 
     pasta_ticket = os.path.join(os.getcwd(), "ticket")
-    os.makedirs(pasta_ticket, exist_ok=True)  # Garante a existência da pasta 'ticket'
+    os.makedirs(pasta_ticket, exist_ok=True) 
 
     caminho_local_repo = os.path.join(pasta_ticket, nome_arquivo)
 

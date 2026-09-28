@@ -8,7 +8,6 @@ from tkinter import filedialog, messagebox, ttk
 from PIL import Image, ImageOps, ImageTk
 import requests
 
-# ==================== PALETAS DE CORES (TEMAS) ====================
 PALETA_CLARA = {
     "fundo": "#004d6e",
     "painel": "#ffffff",
@@ -33,14 +32,11 @@ PALETA_ESCURA = {
     "entrada_texto": "#ffffff",
 }
 
-# Tema atual
 cores = PALETA_CLARA
 modo_escuro = False
 
-# Objeto original da imagem
 img_logo_raw = None
 
-# ==================== BANCO DE DADOS EM MEMÓRIA ====================
 contas = {
     "root": {
         "senha": "root123",
@@ -51,20 +47,15 @@ contas = {
 usuario_atual = None
 
 
-# ==================== TRATAMENTO DE IMAGEM DA LOGO ====================
 def remover_fundo_azul(img):
-    """Remove o quadrado azul de fundo da imagem original,
-    tornando o fundo totalmente transparente para se adaptar a qualquer tema.
-    """
     img = img.convert("RGBA")
     datas = img.getdata()
 
     new_data = []
     for item in datas:
         r, g, b, a = item
-        # Detecta tons do azul do fundo original (#004d6e ou similares)
         if r < 60 and 40 < g < 130 and 80 < b < 160:
-            new_data.append((0, 0, 0, 0))  # Totalmente transparente
+            new_data.append((0, 0, 0, 0))  
         else:
             new_data.append(item)
 
@@ -73,7 +64,6 @@ def remover_fundo_azul(img):
 
 
 def atualizar_imagem_logo():
-    """Recarrega e exibe a logo com o fundo transparente ajustado ao tema"""
     global img_logo_raw, foto_banner
     if img_logo_raw is None:
         return

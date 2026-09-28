@@ -105,7 +105,7 @@ def exportar_json():
         return
 
     pasta_ticket = os.path.join(os.getcwd(), "ticket")
-    os.makedirs(pasta_ticket, exist_ok=True)  # Garante que a pasta 'ticket' existe
+    os.makedirs(pasta_ticket, exist_ok=True)  
 
     nome_padrao = f"tarefa_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
     caminho_padrao = os.path.join(pasta_ticket, nome_padrao)
