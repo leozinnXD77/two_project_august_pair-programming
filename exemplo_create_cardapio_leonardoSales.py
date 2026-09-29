@@ -312,6 +312,8 @@ def finalizar_pedido_json():
 
     pasta_ticket = os.path.join(os.getcwd(), "ticket")
     os.makedirs(pasta_ticket, exist_ok=True)  
+    os.makedirs(pasta_ticket, exist_ok=True) 
+
     caminho_local_repo = os.path.join(pasta_ticket, nome_arquivo)
 
     try:
